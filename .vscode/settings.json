@@ -1,0 +1,11 @@
+{
+  "cSpell.words": [
+    "dotenv",
+    "nextcord"
+  ],
+  "[python]": {
+    "editor.tabSize": 4,
+    "editor.defaultFormatter": "ms-python.autopep8",
+    "editor.formatOnSave": true
+  }
+}
