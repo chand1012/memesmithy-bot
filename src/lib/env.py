@@ -31,6 +31,11 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
     raise ValueError("OPENAI_API_KEY must be set")
 
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+
+if not OPENROUTER_API_KEY:
+    raise ValueError("OPENROUTER_API_KEY must be set")
+
 JINA_API_KEY = os.getenv("JINA_API_KEY")
 
 # Jina is optional, so we don't raise an error if it's not set

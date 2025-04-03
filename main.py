@@ -29,14 +29,21 @@ def describe_img(image_url: str):
 
     # Get text and bounding boxes
     texts = get_image_text(image_url)
-    for text in texts:
-        print(text)
-        bbox = get_str_bounding_box(image_url, text)
-        x, y, w, h = bbox
-        # Draw rectangle around text
-        cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
-        # Add text label above the box
-        cv2.putText(image, text, (x, y - 10),
+    boxes: list[tuple] = [get_str_bounding_box(
+        image_url, text) for text in texts]
+
+    # post process the boxes. If there are overlapping boxes,
+    # make them non-overlapping with a 5 pixel gap
+    new_boxes = []
+    for box in boxes:
+        
+        
+
+    # draw the boxes on the image
+    for i, box in enumerate(new_boxes):
+        cv2.rectangle(
+            image, (box[0], box[1]), (box[0] + box[2], box[1] + box[3]), (0, 255, 0), 2)
+        cv2.putText(image, texts[i], (box[0], box[1] - 10),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
     # Create output directory if it doesn't exist
