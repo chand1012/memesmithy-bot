@@ -19,15 +19,25 @@ class Generator(commands.Cog):
         })
 
     @nextcord.slash_command(name="meme", description="Generate a meme")
-    async def meme(self, interaction: nextcord.Interaction, prompt: str = nextcord.SlashOption(description="The prompt for the meme", required=True)):
+    async def meme(self, interaction: nextcord.Interaction, prompt: str = nextcord.SlashOption(description="The prompt for the meme", required=True), template_id: str | None = nextcord.SlashOption(description="The meme id to use", required=False, default=None)):
         await interaction.response.defer()
 
-        # get all the templates from the database
-        templates = self.supabase.table("templates").select("id").execute()
-        template_ids = [template["id"] for template in templates.data]
+        if not template_id:
+            # get all the templates from the database
+            templates = self.supabase.table("templates").select("id").execute()
+            template_ids = [template["id"] for template in templates.data]
 
-        # get a random template
-        template_id = random.choice(template_ids)
+            # get a random template
+            template_id = random.choice(template_ids)
+        else:
+            template_id = template_id.strip()
+            # verify that the template id is valid
+            templates = self.supabase.table("templates").select("id").eq(
+                'id', template_id).execute()
+            if len(templates.data) == 0:
+                await interaction.followup.send(embed=nextcord.Embed(
+                    title="Invalid template id", description="The template id you provided is invalid. Please try again."))
+                return
 
         response = self.supabase.functions.invoke("generate_meme", {
             "body": {
@@ -47,3 +57,28 @@ class Generator(commands.Cog):
 
         # send the embed to the user
         await interaction.followup.send(embed=embed)
+
+    @nextcord.slash_command(name="templates", description="Get a list of templates")
+    async def templates(self, interaction: nextcord.Interaction, page: int = nextcord.SlashOption(description="The page number to get", required=False, default=1)):
+        await interaction.response.defer()
+
+        # we'll always show 10 templates per page
+        start = (page - 1) * 10
+        end = start + 10
+
+        # get the templates from the database
+        templates = self.supabase.table("templates").select(
+            "*").range(start, end).order("created_at", desc=False).execute()
+
+        # send as well formatted markdown with a link to create via web app
+        # as well as the ID to use for the /meme command.
+        # include the name (which should be a link to the template), the ID
+
+        body = ""
+        for template in templates.data:
+            body += f"**[{template['name']}](https://app.memesmithy.com/create/generate/{template['id']})**\n"
+            body += f"ID: `{template['id']}`\n"
+
+        # add a footer with the page number and the total number of pages
+
+        await interaction.followup.send(body)
