@@ -46,6 +46,15 @@ async def load_cogs():
     except Exception as e:
         print(f"❌ Failed to load cogs.send: {e}")
 
+    # Load the feedback cog
+    try:
+        from cogs.feedback import Feedback
+
+        bot_instance.add_cog(Feedback(bot_instance))
+        print("✅ Loaded cogs.feedback")
+    except Exception as e:
+        print(f"❌ Failed to load cogs.feedback: {e}")
+
 
 @bot_instance.event
 async def on_ready():
