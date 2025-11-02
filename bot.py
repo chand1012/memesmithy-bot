@@ -37,6 +37,15 @@ async def load_cogs():
     except Exception as e:
         print(f"❌ Failed to load cogs.memes: {e}")
 
+    # Load the send cog
+    try:
+        from cogs.send import Send
+
+        bot_instance.add_cog(Send(bot_instance))
+        print("✅ Loaded cogs.send")
+    except Exception as e:
+        print(f"❌ Failed to load cogs.send: {e}")
+
 
 @bot_instance.event
 async def on_ready():

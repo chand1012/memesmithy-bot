@@ -13,6 +13,7 @@ dependencies = [
     "pillow>=12.0.0",
     "groq>=0.33.0",
     "loguru>=0.7.3",
+    "yt-dlp>=2025.10.22",
 ]
 
 [dependency-groups]

@@ -4,6 +4,9 @@ FROM ghcr.io/astral-sh/uv:python3.14-bookworm-slim AS base
 # Set working directory
 WORKDIR /app
 
+# install ffmpeg
+RUN apt-get update && apt-get install -y ffmpeg && rm -rf /var/lib/apt/lists/*
+
 # Install dependencies (transitive dependencies only, not the project itself)
 # This layer will be cached separately from the project code
 RUN --mount=type=cache,target=/root/.cache/uv \

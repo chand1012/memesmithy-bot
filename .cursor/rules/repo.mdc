@@ -1,0 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Project Overview
+
+This project is a Discord bot that generates memes on demand via LLMs and provides other server utilities for a discord server.
