@@ -1,0 +1,47 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv
+venv/
+ENV/
+env/
+
+# Environment files (for security - use environment variables or mounted secrets instead)
+.env
+.env.local
+.env.*.local
+
+# Git files
+.git/
+.gitignore
+.gitattributes
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+wheels/
+*.egg
+
+# Documentation (not needed at runtime)
+README.md
+*.md
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.log
