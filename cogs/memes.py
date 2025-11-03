@@ -222,6 +222,12 @@ class Memes(commands.Cog):
             description="Template ID to use (leave empty for random)",
             required=False,
         ),
+        watermark: bool = nextcord.SlashOption(
+            name="watermark",
+            description="Whether to add a watermark to the meme",
+            required=False,
+            default=True,
+        ),
     ):
         """Generate a meme using the prompt and template_id. If no template_id is provided, use the random template."""
         template = (
@@ -246,7 +252,7 @@ class Memes(commands.Cog):
 
             # Generate the meme image
             meme_image = generate_meme_image(
-                template.id, captions_dict, "memesmithy.com"
+                template.id, captions_dict, "memesmithy.com" if watermark else None
             )
 
             # Convert PIL Image to bytes
